@@ -1,3 +1,12 @@
+import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+
+// issues & resolution for windows 10:
+// wrong import being imported by idea for the copy task
+// requires docker daemon to be exposed on localhost:2375
+// driver failed programming external connectivity on endpoint: restart docker
+// exec user process caused "no such file or directory: run dos2unix on app-entrypoint.sh
+
 buildscript {
     repositories {
         mavenLocal()
@@ -9,6 +18,8 @@ buildscript {
         classpath "gradle.plugin.com.energizedwork:idea-gradle-plugins:1.4"
         classpath "org.grails.plugins:hibernate5:${gormVersion-".RELEASE"}"
         classpath "com.bertramlabs.plugins:asset-pipeline-gradle:2.14.6"
+        //importing docker plugin dependency
+        classpath "com.bmuschko:gradle-docker-plugin:3.2.1"
     }
 }
 
@@ -17,12 +28,14 @@ group "grails.docker.external.services"
 
 apply plugin:"eclipse"
 apply plugin:"idea"
-apply plugin:"war"
+//apply plugin:"war"
 apply plugin:"org.grails.grails-web"
 apply plugin:"com.energizedwork.webdriver-binaries"
 apply plugin:"com.energizedwork.idea-project-components"
 apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
+// applying docker-plugin dependency
+apply plugin:"com.bmuschko.docker-remote-api"
 
 repositories {
     mavenLocal()
@@ -85,3 +98,50 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+
+ext {
+    dockerTag = "grails-sample/${project.name}:${project.version}".toLowerCase()
+    dockerBuildDir = mkdir("${buildDir}/docker")
+}
+// HSC: disable auto import or it will get the wrong dependency
+task prepareDocker(type: Copy, dependsOn: assemble) {
+    description = 'Copy files from src/main/docker and application jar to Docker temporal build directory'
+    group = 'Docker'
+
+    from 'src/main/docker'
+    from project.jar
+
+    into dockerBuildDir
+}
+task createDockerfile(type: Dockerfile, dependsOn: prepareDocker) {
+    description = 'Create a Dockerfile file'
+    group = 'Docker'
+
+    destFile = project.file("${dockerBuildDir}/Dockerfile")
+
+    from 'openjdk:8u151-jdk-alpine'
+    maintainer 'Helain Schoonjans "helain.schoonjans@example.com"'
+
+    exposePort 8080
+
+    workingDir '/app'
+
+    copyFile jar.archiveName, 'application.jar'
+    copyFile 'app-entrypoint.sh', 'app-entrypoint.sh'
+    runCommand 'chmod +x app-entrypoint.sh'
+
+    entryPoint '/app/app-entrypoint.sh'
+}
+task buildImage(type: DockerBuildImage, dependsOn: createDockerfile) {
+    description = 'Create Docker image to run the Grails application'
+    group = 'Docker'
+
+    inputDir = file(dockerBuildDir)
+    tag = dockerTag
+}
+
+// HSC: to run
+//docker run -p 8080:8080 grails-sample/initial:0.1
+
+// docker: Error response from daemon: driver failed programming external connectivity on endpoint
+// solution: restart docker
