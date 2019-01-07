@@ -14,9 +14,19 @@ If the auto-import feature is enabled on your IDE, a wrong import can be importe
 
 You will need to tick the "Expose daemon on tcp://localhost:2375 wihtout TLS" checkbox in the docker settings.
 
+
+## Other troubleshooting
 If you get the error "driver failed programming external connectivity on endpoint": restart docker.
 
 If you get the error "exec user process caused "no such file or directory": run dos2unix on app-entrypoint.sh.
+
+On 'no main manifest attribute, in /app/application.jar', you need to make the generated war/jar file executable; add these lines to the build.gradle:
+
+    springBoot {
+        // Enable the creation of a fully
+        // executable archive file.
+        executable = true
+    }
 
 # How to pass grails environment to the container
 
