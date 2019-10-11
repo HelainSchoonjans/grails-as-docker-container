@@ -100,7 +100,9 @@ Caused by: java.io.IOException: Cannot run program "C:\Program Files\Java\jdk1.8
 	... 8 more
 Caused by: java.io.IOException: CreateProcess error=206, The filename or extension is too long
 	... 9 more
-    
+  
+== Solution
+https://github.com/viswaramamoorthy/gradle-util-plugins
     
 # Other
 
@@ -130,5 +132,8 @@ Caused by: org.springframework.context.ApplicationContextException: Unable to st
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:178)
 	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:152)
 	... 17 common frames omitted
+
+# Main class name has not been configured and it could not be resolved
+
 
     
