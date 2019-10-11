@@ -135,5 +135,9 @@ Caused by: org.springframework.context.ApplicationContextException: Unable to st
 
 # Main class name has not been configured and it could not be resolved
 
+For Gradle 5, Grails 4,
 
+springBoot {
+    mainClassName = 'my.path.to.Application'
+}
     
