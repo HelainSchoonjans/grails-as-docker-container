@@ -95,7 +95,7 @@ Caused by: net.rubygrapefruit.platform.NativeException: Could not start 'C:\Prog
 	at org.gradle.process.internal.ExecHandleRunner.startProcess(ExecHandleRunner.java:97)
 	at org.gradle.process.internal.ExecHandleRunner.run(ExecHandleRunner.java:70)
 	... 4 more
-Caused by: java.io.IOException: Cannot run program "C:\Program Files\Java\jdk1.8.0_162\bin\java.exe" (in directory "C:\Users\hes\IdeaProjects\meetme2\server"): CreateProcess error=206, The filename or extension is too long
+Caused by: java.io.IOException: Cannot run program "C:\Program Files\Java\jdk1.8.0_162\bin\java.exe" (in directory "C:\Users\hes\IdeaProjects\path\server"): CreateProcess error=206, The filename or extension is too long
 	at net.rubygrapefruit.platform.internal.DefaultProcessLauncher.start(DefaultProcessLauncher.java:25)
 	... 8 more
 Caused by: java.io.IOException: CreateProcess error=206, The filename or extension is too long
@@ -118,7 +118,7 @@ org.springframework.context.ApplicationContextException: Unable to start web ser
 	at grails.boot.GrailsApp.run(GrailsApp.groovy:97)
 	at grails.boot.GrailsApp.run(GrailsApp.groovy:458)
 	at grails.boot.GrailsApp.run(GrailsApp.groovy:445)
-	at meetme2.Application.main(Application.groovy:11)
+	at path.Application.main(Application.groovy:11)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
