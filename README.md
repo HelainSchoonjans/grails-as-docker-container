@@ -144,3 +144,7 @@ springBoot {
 # On grails 4: Predestroy when running in docker
 
 spring boot tomcat gradle dependency should be in 'compiled', not provided
+
+# on grails 4: strange spring web error
+
+tomcat must be compiled, use java 11
