@@ -141,3 +141,6 @@ springBoot {
     mainClassName = 'my.path.to.Application'
 }
     
+# On grails 4: Predestroy when running in docker
+
+spring boot tomcat gradle dependency should be in 'compiled', not provided
